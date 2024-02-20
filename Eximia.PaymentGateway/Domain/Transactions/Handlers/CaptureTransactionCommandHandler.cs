@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Eximia.PaymentGateway.Domain.Configurations;
 using Eximia.PaymentGateway.Domain.Transactions.Commands;
+using Eximia.PaymentGateway.Domain.Transactions.Requests;
 using MediatR;
 
 namespace Eximia.PaymentGateway.Domain.Transactions.Handlers
@@ -24,7 +25,7 @@ namespace Eximia.PaymentGateway.Domain.Transactions.Handlers
         public async Task<Result<Transaction>> Handle(CaptureTransactionCommand command, CancellationToken cancellationToken)
         {
             var configuration = await _configurationRepository
-                .GetByClientIdAndChargeTypeAsync(command.ClientId, command.ChargeType, cancellationToken)
+                .GetByClientIdAndCaptureTypeAsync(command.ClientId, command.CaptureType, cancellationToken)
                 .ConfigureAwait(false);
             if (configuration.HasNoValue)
                 return Result.Failure<Transaction>("Client not configured");
@@ -33,7 +34,8 @@ namespace Eximia.PaymentGateway.Domain.Transactions.Handlers
                 command.ClientId,
                 configuration.Value.CaptureTransactionStrategy.Gateway,
                 command.Amount,
-                command.Payer);
+                command.Payer,
+                TransactionRequestFactory.Create(command));
 
             await configuration.Value.CaptureTransactionStrategy.CaptureAsync(_serviceProvider, transaction, cancellationToken).ConfigureAwait(false);
             await _transactionRepository.InsertAsync(transaction, cancellationToken).ConfigureAwait(false);

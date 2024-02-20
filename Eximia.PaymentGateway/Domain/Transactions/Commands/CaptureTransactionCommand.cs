@@ -8,6 +8,7 @@ namespace Eximia.PaymentGateway.Domain.Transactions.Commands
         string ClientId,
         Payer Payer,
         decimal Amount,
-        ECaptureType ChargeType,
-        ChargeByCreditCardDto? CreditCard) : IRequest<Result<Transaction>>;
+        ECaptureType CaptureType,
+        ChargeByCreditCardDto? CreditCard,
+        ChargeByPixDto? Pix) : IRequest<Result<Transaction>>;
 }

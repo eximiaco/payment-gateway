@@ -14,7 +14,7 @@ namespace Eximia.PaymentGateway.Infrastructure.Integrations.Captures
 
         public async Task CaptureAsync(IServiceProvider serviceProvider, Transaction transaction, CancellationToken cancellationToken = default)
         {
-            var ebanxApi = serviceProvider.GetRequiredService<IEbanxApi>();
+            var ebanxApi = serviceProvider.GetRequiredService<EbanxApi>();
 
             var request = new CaptureEbanxCreditCardDto(); // Create gateway request body
             var gatewayResult = await ebanxApi.CaptureCreditCardAsync(request, cancellationToken).ConfigureAwait(false);

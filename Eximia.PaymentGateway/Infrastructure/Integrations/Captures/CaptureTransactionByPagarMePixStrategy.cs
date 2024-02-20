@@ -14,7 +14,7 @@ namespace Eximia.PaymentGateway.Infrastructure.Integrations.Captures
 
         public async Task CaptureAsync(IServiceProvider serviceProvider, Transaction transaction, CancellationToken cancellationToken = default)
         {
-            var pagarMe = serviceProvider.GetRequiredService<IPagarMeApi>();
+            var pagarMe = serviceProvider.GetRequiredService<PagarMeApi>();
 
             var request = new CapturePagarMePixDto(); // Create gateway request body
             var gatewayResult = await pagarMe.CapturePixAsync(request, cancellationToken).ConfigureAwait(false);

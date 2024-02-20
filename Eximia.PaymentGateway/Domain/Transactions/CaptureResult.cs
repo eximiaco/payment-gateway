@@ -18,5 +18,11 @@ namespace Eximia.PaymentGateway.Domain.Transactions
         public string GatewayStatus { get; }
         public string Message { get; }
         public DateTime GatewayAnsweredAt { get; }
+
+        public static CaptureResult CreateCreditCard(string gatewayTransactionId, string gatewayStatus, string message, DateTime gatewayAnsweredAt)
+            => new CaptureResult(ECaptureType.CreditCard, gatewayTransactionId, gatewayStatus, message, gatewayAnsweredAt);
+
+        public static CaptureResult CreatePix(string gatewayTransactionId, string gatewayStatus, string message, DateTime gatewayAnsweredAt)
+            => new CaptureResult(ECaptureType.Pix, gatewayTransactionId, gatewayStatus, message, gatewayAnsweredAt);
     }
 }
