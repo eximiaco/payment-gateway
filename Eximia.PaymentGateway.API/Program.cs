@@ -1,6 +1,7 @@
 using Eximia.PaymentGateway.Domain;
 using Eximia.PaymentGateway.Domain.Configurations;
 using Eximia.PaymentGateway.Domain.Transactions;
+using Eximia.PaymentGateway.Infrastructure.Integrations.Captures;
 using Eximia.PaymentGateway.Infrastructure.Integrations.Ebanx;
 using Eximia.PaymentGateway.Infrastructure.Integrations.PagarMe;
 using Eximia.PaymentGateway.Infrastructure.Repositories;
@@ -32,6 +33,7 @@ namespace Eximia.PaymentGateway
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<EbanxApi>();
             builder.Services.AddScoped<PagarMeApi>();
+            builder.Services.AddScoped<CaptureTransactionWithAuthDecorator>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<EGateway>());
 

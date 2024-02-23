@@ -1,4 +1,4 @@
-﻿using Eximia.PaymentGateway.Domain.Transactions;
+﻿using CSharpFunctionalExtensions;
 
 namespace Eximia.PaymentGateway.Domain.Configurations
 {
@@ -7,6 +7,6 @@ namespace Eximia.PaymentGateway.Domain.Configurations
         ECaptureType CaptureType { get; }
         EGateway Gateway { get; }
 
-        Task CaptureAsync(IServiceProvider serviceProvider, Transaction transaction, CancellationToken cancellationToken = default);
+        Task<Result> CaptureAsync(CaptureTransactionContext context, CancellationToken cancellationToken = default);
     }
 }

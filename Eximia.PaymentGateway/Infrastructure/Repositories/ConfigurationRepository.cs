@@ -2,6 +2,7 @@
 using Dapper;
 using Eximia.PaymentGateway.Domain;
 using Eximia.PaymentGateway.Domain.Configurations;
+using Eximia.PaymentGateway.Domain.Configurations.Auth;
 using Npgsql;
 using System.Data;
 
@@ -21,7 +22,8 @@ namespace Eximia.PaymentGateway.Infrastructure.Repositories
             var sql = @"SELECT  id as Id,
                                 client_id as ClientId,
                                 capture_type as CaptureType,
-                                capture_transaction_strategy as CaptureTransactionStrategy
+                                capture_transaction_strategy as CaptureTransactionStrategy,
+                                auth_strategy as AuthStrategy
                         FROM configurations
                         WHERE client_id = @ClientId
                             AND capture_type = @CaptureType";
@@ -39,9 +41,10 @@ namespace Eximia.PaymentGateway.Infrastructure.Repositories
                 configuration.Id,
                 configuration.ClientId,
                 (ECaptureType)configuration.CaptureType,
-                configuration.CaptureTransactionStrategy.ToNameTypeObject<ICaptureTransactionStrategy>());
+                configuration.CaptureTransactionStrategy.ToNameTypeObject<ICaptureTransactionStrategy>(),
+                configuration.AuthStrategy.ToNameTypeObject<IAuthStrategy>());
         }
 
-        public record ConfigurationDto(int Id, string ClientId, int CaptureType, string CaptureTransactionStrategy);
+        public record ConfigurationDto(int Id, string ClientId, int CaptureType, string CaptureTransactionStrategy, string AuthStrategy);
     }
 }
